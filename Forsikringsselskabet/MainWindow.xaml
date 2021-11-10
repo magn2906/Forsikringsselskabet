@@ -1,0 +1,77 @@
+﻿<Window x:Class="Forsikringsselskabet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Forsikringsselskabet"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Kunder">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dgKunder" HorizontalAlignment="Left" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding KundeListe}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Fornavn" Binding="{Binding Fornavn}"/>
+                            <DataGridTextColumn Header="Efternavn" Binding="{Binding Efternavn}"/>
+                            <DataGridTextColumn Header="Adresse" Binding="{Binding Adresse}"/>
+                            <DataGridTextColumn Header="Postnummer" Binding="{Binding Postnummer}"/>
+                            <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Content="Fornavn" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Efternavn" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Adresse" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Postnummer" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Telefon" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbxFornavnKunde" HorizontalAlignment="Left" Margin="140,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox x:Name="tbxEfternavnKunde" HorizontalAlignment="Left" Margin="140,40,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox x:Name="tbxAdresseKunde" HorizontalAlignment="Left" Margin="140,70,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox x:Name="tbxPostnummerKunde" HorizontalAlignment="Left" Margin="140,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox x:Name="tbxTelefonKunde" HorizontalAlignment="Left" Margin="140,130,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <Button x:Name="btnGemKunde" Content="Gem" HorizontalAlignment="Left" Margin="364,350,0,0" VerticalAlignment="Top" Width="75" Click="btnGemKunde_Click"/>
+                    <Button x:Name="btnRedigerKunde" ToolTip="Man kan ikke ændre telefonnummer!" Content="Rediger" HorizontalAlignment="Left" Margin="450,350,0,0" VerticalAlignment="Top" Width="75" Click="btnRedigerKunde_Click"/>
+                    <Button x:Name="btnSletKunde" Content="Slet" HorizontalAlignment="Left" Margin="709,350,0,0" VerticalAlignment="Top" Width="75" Click="btnSletKunde_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Forsikring">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dgForsikringer" HorizontalAlignment="Left" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding KundeListe}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kundenavn" Binding="{Binding Kunde.Fuldenavn}"/>
+                            <DataGridTextColumn Header="Bilmodel" Binding="{Binding Bilmodel.BilmodelNavn}"/>
+                            <DataGridTextColumn Header="Registreringsnummer" Binding="{Binding Registreringsnummer}"/>
+                            <DataGridTextColumn Header="Præmie" Binding="{Binding Præmie}"/>
+                            <DataGridTextColumn Header="Sum" Binding="{Binding ForsikringsSum}"/>
+                            <DataGridTextColumn Header="Startdato" Binding="{Binding Startdato}"/>
+                            <DataGridTextColumn Header="Bemærkning" Binding="{Binding Bemærkning}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Label Content="Kunde" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Bilmodel" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Registreringsnummer" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Præmie" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Sum" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Startdato" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Bemærkning" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="140,10,0,0" Text="" ItemsSource="{Binding KundeListe}" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="140,40,0,0" Text="" ItemsSource="{Binding BilmodelListe}" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox HorizontalAlignment="Left" Margin="140,70,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox HorizontalAlignment="Left" Margin="140,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox HorizontalAlignment="Left" Margin="140,130,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox HorizontalAlignment="Left" Margin="140,160,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
+                    <TextBox HorizontalAlignment="Left" Margin="140,190,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" Width="200"/>
+                    <Button x:Name="btnGemForsikring" Content="Gem" HorizontalAlignment="Left" Margin="364,350,0,0" VerticalAlignment="Top" Width="75" Click="btnGemKunde_Click"/>
+                    <Button x:Name="btnSletForsikring" Content="Slet" HorizontalAlignment="Left" Margin="709,350,0,0" VerticalAlignment="Top" Width="75" Click="btnSletKunde_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Bilmodeller">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Vejret">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
