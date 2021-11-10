@@ -6,6 +6,7 @@ namespace FsModel
 {
     public class Forsikring
     {
+        public int ForsikringId { get; set; }
         public int KundeId { get; set; }
         public int BilmodelId { get; set; }
         public string Registreringsnummer { get; set; }
@@ -16,8 +17,9 @@ namespace FsModel
         public Kunde Kunde { get; set; }
         public Bilmodel Bilmodel { get; set; }
 
-        public Forsikring(Kunde kunde, Bilmodel bilmodel, string registreringsnummer, decimal præmie, decimal forsikringsSum, string bemærkning, DateTime startdato)
+        public Forsikring(int forsikringId, Kunde kunde, Bilmodel bilmodel, string registreringsnummer, decimal præmie, decimal forsikringsSum, string bemærkning, DateTime startdato)
         {
+            ForsikringId = forsikringId;
             Kunde = kunde;
             KundeId = kunde.KundeId;
             Bilmodel = bilmodel;

@@ -10,9 +10,20 @@ namespace FsModel
         public string Mærke { get; set; }
         public string Model { get; set; }
         public string BilmodelNavn { get { return Mærke + " " + Model; } }
-        public string Startår { get; set; }
-        public string Slutår { get; set; }
+        public int Startår { get; set; }
+        public int Slutår { get; set; }
         public decimal VejledendePræmie { get; set; }
         public decimal VejledendeSum { get; set; }
+
+        public Bilmodel(int bilmodelId, string mærke, string model, int startår, int slutår, decimal vejledendePræmie, decimal vejledendeSum)
+        {
+            BilmodelId = bilmodelId;
+            Mærke = mærke;
+            Model = model;
+            Startår = startår;
+            Slutår = slutår;
+            VejledendePræmie = vejledendePræmie;
+            VejledendeSum = vejledendeSum;
+        }
     }
 }
