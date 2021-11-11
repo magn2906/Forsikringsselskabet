@@ -23,6 +23,7 @@ namespace Forsikringsselskabet
     public partial class MainWindow : Window
     {
         FsFunc Funktioner = new FsFunc();
+        Vejr vejr = new Vejr();
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace Forsikringsselskabet
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -49,16 +50,23 @@ namespace Forsikringsselskabet
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnSletKunde_Click(object sender, RoutedEventArgs e)
         {
-            Funktioner.SletKunde(dgKunder.SelectedItem as Kunde);
+            try
+            {
+                Funktioner.SletKunde(dgKunder.SelectedItem as Kunde);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void btnRedigerKunde_Click(object sender, RoutedEventArgs e)
+        private void dgKunder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Kunde selectedKunde = dgKunder.SelectedItem as Kunde;
             tbxFornavnKunde.Text = selectedKunde.Fornavn;
@@ -76,13 +84,54 @@ namespace Forsikringsselskabet
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dgForsikringer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                Forsikring selectedForsikring = dgForsikringer.SelectedItem as Forsikring;
+                cbxKundeForsikring.SelectedItem = selectedForsikring.Kunde;
+                cbxBilmodelForsikring.SelectedItem = selectedForsikring.Bilmodel;
+                tbxRegistreringsnummerForsikring.Text = selectedForsikring.Registreringsnummer.ToString();
+                tbxPræmieForsikring.Text = selectedForsikring.Præmie.ToString();
+                tbxSumForsikring.Text = selectedForsikring.ForsikringsSum.ToString();
+                tbxBemærkningForsikring.Text = selectedForsikring.Bemærkning;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnOpdaterForsikring_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Funktioner.OpdaterForsikring(dgForsikringer.SelectedItem as Forsikring, cbxKundeForsikring.SelectedItem as Kunde, cbxBilmodelForsikring.SelectedItem as Bilmodel, tbxRegistreringsnummerForsikring.Text, tbxPræmieForsikring.Text, tbxSumForsikring.Text, tbxBemærkningForsikring.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnSletForsikring_Click(object sender, RoutedEventArgs e)
         {
-            Funktioner.SletForsikring(dgForsikringer.SelectedItem as Forsikring);
+            try
+            {
+                if (dgForsikringer.SelectedItem != null)
+                {
+                    Funktioner.SletForsikring(dgForsikringer.SelectedItem as Forsikring);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnGemBilmodel_Click(object sender, RoutedEventArgs e)
@@ -93,14 +142,45 @@ namespace Forsikringsselskabet
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnSletBilmodel_Click(object sender, RoutedEventArgs e)
         {
-            Funktioner.SletBilmodel(dgBilmodeller.SelectedItem as Bilmodel);
+            try
+            {
+                Funktioner.SletBilmodel(dgBilmodeller.SelectedItem as Bilmodel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            vejr.location = tbxCity.Text;
+            vejr.CurrentURL = "http://api.openweathermap.org/data/2.5/weather?q=" + vejr.location + "&mode=xml&units=metric&APPID=" + vejr.APIKEY;
+
+            try
+            {
+                tblTempMin.Text = vejr.TemperatureMin();
+                tblTempMax.Text = vejr.TemperatureMax();
+                tblTempAvg.Text = vejr.Temperature();
+
+                tblWindSpeed.Text = vejr.WindSpeed;
+                tblWindSpeedName.Text = vejr.WindSpeedName();
+                tblWindDirection.Text = vejr.WindDirection();
+                tblWindDirectionName.Text = vejr.WindDirectionName();
+
+                tblCountry.Text = vejr.Country();
+                tblCity.Text = vejr.City();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kunne ikke finde byen \n\n\n" + ex.ToString(), "Kunne ikke finde byen");
+            }
+        }
     }
 }

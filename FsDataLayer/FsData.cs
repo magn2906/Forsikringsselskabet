@@ -62,6 +62,11 @@ namespace FsDataLayer
             sqlAccess.ExecuteSql($"INSERT INTO [dbo].[Forsikring] ([KundeId], [BilmodelId], [Registreringsnummer], [Præmie], [ForsikringsSum], [Bemærkning], [Startdato]) VALUES ('{kunde.KundeId}', '{bilmodel.BilmodelId}', '{registreringsnummer}', '{præmie}', '{sum}', '{bemærkning}', '{startdato.ToString(CultureInfo.InvariantCulture)}')");
         }
 
+        public void OpdaterForsikring(Forsikring forsikring, string registreringsnummer, decimal præmie, decimal sum, string bemærkning)
+        {
+            sqlAccess.ExecuteSql($"UPDATE [dbo].[Forsikring] SET Registreringsnummer = '{registreringsnummer}', Præmie = '{præmie}', ForsikringsSum = '{sum}', Bemærkning = '{bemærkning}' WHERE Id = {forsikring.ForsikringId}");
+        }
+
         public void SletForsikring(Forsikring forsikring)
         {
             sqlAccess.ExecuteSql($"DELETE FROM [dbo].[Forsikring] WHERE Id = " + forsikring.ForsikringId);

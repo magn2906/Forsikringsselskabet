@@ -10,7 +10,7 @@
         <TabControl>
             <TabItem Header="Kunder">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dgKunder" HorizontalAlignment="Left" AutoGenerateColumns="False" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding KundeListe}">
+                    <DataGrid x:Name="dgKunder" HorizontalAlignment="Left" AutoGenerateColumns="False" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding KundeListe}" SelectionChanged="dgKunder_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Fornavn" Binding="{Binding Fornavn}"/>
                             <DataGridTextColumn Header="Efternavn" Binding="{Binding Efternavn}"/>
@@ -30,14 +30,13 @@
                     <TextBox x:Name="tbxPostnummerKunde" HorizontalAlignment="Left" Margin="140,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
                     <TextBox x:Name="tbxTelefonKunde" HorizontalAlignment="Left" Margin="140,130,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="200"/>
                     <Button x:Name="btnGemKunde" Content="Gem" HorizontalAlignment="Left" Margin="364,350,0,0" VerticalAlignment="Top" Width="75" Click="btnGemKunde_Click"/>
-                    <Button x:Name="btnRedigerKunde" Content="Rediger" HorizontalAlignment="Left" Margin="450,350,0,0" VerticalAlignment="Top" Width="75" Click="btnRedigerKunde_Click"/>
-                    <Button x:Name="btnOpdaterKunde" Content="Opdater" HorizontalAlignment="Left" Margin="536,350,0,0" VerticalAlignment="Top" Width="75" Click="btnOpdaterKunde_Click"/>
+                    <Button x:Name="btnOpdaterKunde" Content="Opdater" HorizontalAlignment="Left" Margin="450,350,0,0" VerticalAlignment="Top" Width="75" Click="btnOpdaterKunde_Click"/>
                     <Button x:Name="btnSletKunde" Content="Slet" HorizontalAlignment="Left" Margin="709,350,0,0" VerticalAlignment="Top" Width="75" Click="btnSletKunde_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Forsikring">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="dgForsikringer" HorizontalAlignment="Left" AutoGenerateColumns="False" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding ForsikringListe}">
+                    <DataGrid x:Name="dgForsikringer" HorizontalAlignment="Left" AutoGenerateColumns="False" Height="325" Margin="364,10,0,0" VerticalAlignment="Top" Width="420" ItemsSource="{Binding ForsikringListe}" SelectionChanged="dgForsikringer_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Kundenavn" Binding="{Binding Kunde.Fuldenavn}"/>
                             <DataGridTextColumn Header="Bilmodel" Binding="{Binding Bilmodel.BilmodelNavn}"/>
@@ -63,6 +62,7 @@
                     <DatePicker x:Name="dpStartdatoForsikring" HorizontalAlignment="Left" Margin="140,160,0,0" Text="" VerticalAlignment="Top" Height="25" Width="200"/>
                     <TextBox x:Name="tbxBemærkningForsikring" HorizontalAlignment="Left" Margin="140,190,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" Width="200"/>
                     <Button x:Name="btnGemForsikring" Content="Gem" HorizontalAlignment="Left" Margin="364,350,0,0" VerticalAlignment="Top" Width="75" Click="btnGemForsikring_Click"/>
+                    <Button x:Name="btnOpdaterForsikring" Content="Opdater" HorizontalAlignment="Left" Margin="450,350,0,0" VerticalAlignment="Top" Width="75" Click="btnOpdaterForsikring_Click"/>
                     <Button x:Name="btnSletForsikring" Content="Slet" HorizontalAlignment="Left" Margin="709,350,0,0" VerticalAlignment="Top" Width="75" Click="btnSletForsikring_Click"/>
                 </Grid>
             </TabItem>
@@ -99,7 +99,35 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Vejret">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="By" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Temperatur" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Vind" HorizontalAlignment="Left" Margin="50,130,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Hastighed" HorizontalAlignment="Left" Margin="60,150,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Retning" HorizontalAlignment="Left" Margin="60,190,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbxCity" HorizontalAlignment="Left" Margin="175,50,0,0" Text="Indtast by" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="26">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding Button_Click}" Key="Enter" />
+                            <KeyBinding Command="{Binding Button_Click}" Key="Return" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Content="Se vejret" HorizontalAlignment="Left" Margin="315,50,0,0" VerticalAlignment="Top" Height="26" Width="50" Click="Button_Click" Background="White"/>
+                    <TextBlock x:Name="tblTempMin" HorizontalAlignment="Left" Margin="175,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="50" Background="White"/>
+                    <TextBlock x:Name="tblTempMax" HorizontalAlignment="Left" Margin="245,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="50" Background="White"/>
+                    <TextBlock x:Name="tblTempAvg" HorizontalAlignment="Left" Margin="315,100,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="50" Background="White"/>
+                    <Label Content="Min" HorizontalAlignment="Left" Margin="175,82,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Max" HorizontalAlignment="Left" Margin="245,82,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Avg" HorizontalAlignment="Left" Margin="315,82,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblWindSpeed" HorizontalAlignment="Left" Margin="175,150,0,0" Height="26" Width="50" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+                    <TextBlock x:Name="tblWindSpeedName" HorizontalAlignment="Left" Margin="245,150,0,0" Height="26" Width="120" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+                    <TextBlock x:Name="tblWindDirection" HorizontalAlignment="Left" Margin="175,190,0,0" Height="26" Width="50" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+                    <TextBlock x:Name="tblWindDirectionName" HorizontalAlignment="Left" Margin="245,190,0,0" Height="26" Width="120" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+                    <Label Content="Land" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblCountry" HorizontalAlignment="Left" Margin="175,240,0,0" Height="26" Width="190" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+                    <Label Content="By" HorizontalAlignment="Left" Margin="50,290,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblCity" HorizontalAlignment="Left" Margin="175,290,0,0" Height="26" Width="190" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Background="White"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
 

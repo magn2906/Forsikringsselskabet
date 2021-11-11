@@ -53,7 +53,7 @@ namespace FsFuncLayer
             {
                 if (kunde.Telefon == telefon)
                 {
-                    throw new Exception("En kunde med dette telefonnummer eksisterer allerede.");
+                    throw new Exception("En kunde med dette telefonnummer eksisterer allerede.\n\n\n");
                 }
             }
             #endregion
@@ -77,6 +77,21 @@ namespace FsFuncLayer
 
         public void SletKunde(Kunde kunde)
         {
+            #region Fejlhåndtering
+            if (kunde == null)
+            {
+                throw new Exception("Ingen kunde valgt");
+            }
+
+            foreach (Forsikring forsikring in ForsikringListe)
+            {
+                if (forsikring.KundeId == kunde.KundeId)
+                {
+                    throw new Exception("Kunden er tilknyttet en eksisterende forsikring, og kan derfor ikke slettes");
+                }
+            }
+            #endregion
+
             data.SletKunde(kunde);
             RaisePropertyChanged("KundeListe");
         }
@@ -93,14 +108,76 @@ namespace FsFuncLayer
             {
                 throw new Exception("Kunne ikke læse sum");
             }
+
+            if (kunde == null)
+            {
+                throw new Exception("Ingen kunde valgt");
+            }
+
+            if (bilmodel == null)
+            {
+                throw new Exception("Ingen bilmodel valgt");
+            }
+
+            foreach (Forsikring forsikring in ForsikringListe)
+            {
+                if (forsikring.Registreringsnummer == registreringsnummer)
+                {
+                    throw new Exception("Registreringsnummer er allerede knyttet til en eksisterende forsikring");
+                }
+            }
             #endregion
 
             data.OpretForsikring(kunde, bilmodel, registreringsnummer, præmieDecimal, sumDecimal, bemærkning, startdato);
             RaisePropertyChanged("ForsikringListe");
         }
 
+        public void OpdaterForsikring(Forsikring forsikring, Kunde kunde, Bilmodel bilmodel, string registreringsnummer, string præmie, string sum, string bemærkning)
+        {
+            #region Fejlhåndtering
+            if (!decimal.TryParse(præmie, out decimal præmieDecimal))
+            {
+                throw new Exception("Kunne ikke læse præmie");
+            }
+
+            if (!decimal.TryParse(sum, out decimal sumDecimal))
+            {
+                throw new Exception("Kunne ikke læse sum");
+            }
+            if (forsikring == null)
+            {
+                throw new Exception("Ingen forsikring valgt");
+            }
+            if (kunde == null)
+            {
+                throw new Exception("Ingen kunde valgt");
+            }
+            if (bilmodel == null)
+            {
+                throw new Exception("Ingen bilmodel valgt");
+            }
+            if (forsikring.Kunde.KundeId != kunde.KundeId)
+            {
+                throw new Exception("Man kan ikke ændre kunde til en forsikring. Slet og lav en ny en i stedet for.");
+            }
+            if (forsikring.Bilmodel.BilmodelId != bilmodel.BilmodelId)
+            {
+                throw new Exception("Man kan ikke ændre bilmodel til en forsikring. Slet og lav en ny en i stedet for.");
+            }
+            #endregion
+
+            data.OpdaterForsikring(forsikring, registreringsnummer, præmieDecimal, sumDecimal, bemærkning);
+        }
+
         public void SletForsikring(Forsikring forsikring)
         {
+            #region Fejlhåndtering
+            if (forsikring == null)
+            {
+                throw new Exception("Ingen forsikring valgt");
+            }
+            #endregion
+
             data.SletForsikring(forsikring);
             RaisePropertyChanged("ForsikringListe");
         }
@@ -127,6 +204,15 @@ namespace FsFuncLayer
             {
                 throw new Exception("Kunne ikke læse VejledendeSum");
             }
+
+            foreach (Bilmodel bilmodel in BilmodelListe)
+            {
+                if (bilmodel.Mærke == mærke && bilmodel.Model == model && bilmodel.Startår == startårInt && bilmodel.Slutår == slutårInt)
+                {
+                    throw new Exception("Denne model eksisterer allerede med samme start/slutår.");
+                }
+
+            }
             #endregion
 
             data.OpretBilmodel(mærke, model, startårInt, slutårInt, vejledendePræmieDecimal, vejledendeSumDecimal);
@@ -135,6 +221,13 @@ namespace FsFuncLayer
 
         public void SletBilmodel(Bilmodel bilmodel)
         {
+            #region Fejlhåndtering
+            if (bilmodel == null)
+            {
+                throw new Exception("Ingen bilmodel valgt");
+            }
+            #endregion
+
             data.SletBilmodel(bilmodel);
             RaisePropertyChanged("BilmodelListe");
         }
